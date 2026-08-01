@@ -25,9 +25,8 @@ LEADERBOARD_SIZE = 15
 DB_PATH = os.getenv("DB_PATH", "bot_data.db")
 
 # Fonts bundled with the project (used for the leaderboard image widget)
-FONT_BOLD = os.path.join(os.path.dirname(__file__), "assets", "font_bold.ttf")
-FONT_REGULAR = os.path.join(os.path.dirname(__file__), "assets", "font_regular.ttf")
-
+FONT_BOLD = os.path.join(os.path.dirname(__file__), "font_bold.ttf")
+FONT_REGULAR = os.path.join(os.path.dirname(__file__), "font_regular.ttf")
 # Timezone-naive hour (UTC) at which the monthly reset job runs on day 1
 MONTHLY_RESET_HOUR_UTC = int(os.getenv("MONTHLY_RESET_HOUR_UTC", "0"))
 
