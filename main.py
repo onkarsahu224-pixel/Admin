@@ -1,5 +1,8 @@
 import datetime
 import logging
+import os
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from telegram import Update
 from telegram.ext import (
@@ -42,6 +45,23 @@ async def _post_init(application: Application):
     logger.info("Database ready.")
 
 
+class _HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+    def log_message(self, format, *args):
+        pass  # keep the logs clean
+
+
+def _start_health_server():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), _HealthHandler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    logger.info(f"Health check server listening on port {port}")
+
+
 async def monthly_auto_reset(context: ContextTypes.DEFAULT_TYPE):
     """Runs automatically on the 1st of every month: archives standings,
     announces the winners with the owner-configured rewards, and resets
@@ -70,6 +90,8 @@ async def monthly_auto_reset(context: ContextTypes.DEFAULT_TYPE):
 
 
 def main():
+    _start_health_server()
+
     application = ApplicationBuilder().token(BOT_TOKEN).post_init(_post_init).build()
 
     # ---- Group member / basic commands ----
