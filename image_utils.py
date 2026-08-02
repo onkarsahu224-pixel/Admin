@@ -273,7 +273,7 @@ def _draw_card(width: int, height: int, group_title: str, updated_label: str,
     title_font = _font(FONT_BOLD, 44)
     sub_font = _font(FONT_REGULAR, 22)
 
-    _draw_tracked(draw, (left, PA"""
+    _draw_tracked(draw, (left, PADDING + 14), "SYSTEM · GROUP RANKINGS", eyebrow_font, NEON_CYAN, tracking=3)
 Renders the leaderboard widget as a PNG image — a dark, neon "robot HUD"
 look: near-black glass panel, glowing cyan/magenta/violet accents, a
 faint circuit-grid backdrop, scanlines, and circuit-trace tick marks
